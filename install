@@ -1,0 +1,31 @@
+#!/bin/bash
+pkg=$1
+
+echo
+echo Name
+cat pkgs/repo/$pkg/deps
+echo $1
+echo 
+read -p "Do you want to continue? [Y/n] " answer
+
+if [ -x ${answer} ]
+then
+	answer="y"
+fi
+
+
+if [ ${answer,,} == "y" ]
+then
+	source pkgs/repo/$pkg/semcfile
+	mkdir bindir/$1
+	cd builddir/
+	fetch >> /dev/null
+	cd $1
+	install
+	cd ..
+	rm -rf $1
+	cd ..
+	chmod -R +x bindir/$1/
+	cd bin
+	ln -s ../bindir/$1/* .
+fi

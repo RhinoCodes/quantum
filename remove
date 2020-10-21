@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#!/bin/bash
+pkg=$1
+
+echo Name
+cat pkgs/repo/$pkg/deps
+echo $1
+echo
+read -p "Do you want to continue? [Y/n] " answer
+
+if [ -x ${answer} ]
+then
+	answer="y"
+fi
+
+
+if [ ${answer,,} == "y" ]
+then
+	source pkgs/repo/$1/semcfile
+	rm -rf bindir/$1
+	find bin/ -xtype l -delete
+fi
