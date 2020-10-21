@@ -1,9 +1,11 @@
 #!/bin/bash
 pkg=$1
 
+curl -LO https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/$1/semcfile >> /dev/null
+curl -LO https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/$1/deps >> /dev/null
 echo
 echo Name
-cat pkgs/repo/$pkg/deps
+cat deps
 echo $1
 echo 
 read -p "Do you want to continue? [Y/n] " answer
@@ -16,7 +18,7 @@ fi
 
 if [ ${answer,,} == "y" ]
 then
-	source pkgs/repo/$pkg/semcfile
+	source semcfile
 	mkdir bindir/$1
 	cd builddir/
 	fetch >> /dev/null
@@ -28,4 +30,7 @@ then
 	chmod -R +x bindir/$1/
 	cd bin
 	ln -s ../bindir/$1/* .
+	cd ..
+	rm -rf builddir/$1
+	while read line; do ./install_quiet $line; done < deps
 fi

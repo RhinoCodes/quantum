@@ -1,0 +1,26 @@
+pkg=$(echo $1)
+
+echo $pkg
+echo $(pwd)
+rm semcfile
+rm deps
+curl -LO $(echo "https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/$pkg/semcfile")
+curl -LO $(echo "https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/$pkg/deps")
+echo "https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/$pkg/semcfile"
+source semcfile
+mkdir bindir/$(echo $pkg)
+cd builddir/
+fetch >> /dev/null
+cd $(echo $pkg)
+install
+cd ..	
+rm -rf $1
+cd ..
+chmod -R +x bindir/$(echo $pkg)/
+cd bin
+ln -s ../bindir/$(echo $pkg)/* .
+cd ..
+rm -rf builddir/$(echo $pkg)
+sed -i 's/\r$//' deps
+echo $(cat deps)
+while read line; do ./install_quiet $line; done < deps

@@ -1,13 +1,14 @@
 #!/bin/bash
 
+mkdir builddir/$2
 if [ ${1,,} == "install" ] 
 then
-	./install $2
+	./install $2 >> /dev/null
 	exit 0
 fi
 
 if [ ${1,,} == "remove" ] 
 then
-	./remove $2
+	./remove $2 >> /dev/null
 	exit 0
 fi
