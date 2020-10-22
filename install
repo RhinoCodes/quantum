@@ -18,19 +18,5 @@ fi
 
 if [ ${answer,,} == "y" ]
 then
-	source semcfile
-	mkdir bindir/$1
-	cd builddir/
-	fetch >> /dev/null
-	cd $1
-	install
-	cd ..
-	rm -rf $1
-	cd ..
-	chmod -R +x bindir/$1/
-	cd bin
-	ln -s ../bindir/$1/* .
-	cd ..
-	rm -rf builddir/$1
-	while read line; do ./install_quiet $line; done < deps
+	./install_quiet $pkg >> /dev/null
 fi
