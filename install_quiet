@@ -7,7 +7,14 @@ rm deps
 curl -LO $(echo "https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/$pkg/semcfile")
 curl -LO $(echo "https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/$pkg/deps")
 echo "https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/$pkg/semcfile"
-source semcfile
+
+if [[ $(cat semcfile) != "404: Not Found" ]]
+then
+	source semcfile
+else
+	exit 0
+fi
+
 mkdir bindir/$(echo $pkg)
 cd builddir/
 fetch >> /dev/null
@@ -22,5 +29,6 @@ ln -s ../bindir/$(echo $pkg)/* .
 cd ..
 rm -rf builddir/$(echo $pkg)
 sed -i 's/\r$//' deps
-echo $(cat deps)
 while read line; do ./install_quiet $line; done < deps
+rm semcfile
+rm deps
