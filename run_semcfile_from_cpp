@@ -1,0 +1,13 @@
+#!/bin/bash
+
+source ../semcfile
+fetch
+cd $1
+install
+cd ../..
+rm -rf builddir/$1
+cd bin
+ln -s ../bindir/$1/* .
+cd ..
+rm semcfile
+rm deps
