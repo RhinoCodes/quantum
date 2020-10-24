@@ -12,7 +12,7 @@ int install(std::string pkg){
   std::cout << "Do you want to continue? [Y/n] ";
   std::cin >> answer;
   if(answer == "y"){
-    downloadfile("https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/"+pkg+"/semcfile");
+    downloadfile("https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/"+pkg+"/quantumfile");
     downloadfile("https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/"+pkg+"/deps");
 
     std::ifstream file("deps");
