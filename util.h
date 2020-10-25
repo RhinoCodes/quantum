@@ -1,13 +1,19 @@
 #include <string>
 #include <unistd.h>
 
-int runfile(std::string file){
+static inline void runfile(std::string file){
   std::string cmd = "bash "+file;
   const char *command = cmd.c_str();
   system(command);
 }
 
-int install_pkg(std::string pkg){
+void downloadfile(std::string url){
+  std::string cmd="curl -LO "+url+" >> /dev/null";
+  const char *command = cmd.c_str();
+  system(command);
+}
+
+void install_pkg(std::string pkg){
       std::string cmd = "mkdir bindir/"+pkg;
       const char *command = cmd.c_str();
       system(command);
@@ -16,10 +22,15 @@ int install_pkg(std::string pkg){
       cmd = "bash ../run_semcfile_from_cpp "+pkg;
       command = cmd.c_str();
       system(command);
+
+      downloadfile("https://raw.githubusercontent.com/RhinoCodes/repo/main/repo/"+pkg+"/deps");
+
+      std::ifstream file("deps");
+      std::string str;
+      while (std::getline(file, str)) {
+        if(str.length() != 0){
+          install_pkg(str);
+        }
+      }
 }
 
-int downloadfile(std::string url){
-  std::string cmd="curl -LO "+url+" >> /dev/null";
-  const char *command = cmd.c_str();
-  system(command);
-}

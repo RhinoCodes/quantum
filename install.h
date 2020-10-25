@@ -3,7 +3,7 @@
 #include <string>
 #include "util.h"
 
-int install(std::string pkg){
+static inline int install(std::string pkg){
   std::string answer;
 
   std::cout << "Name" << std::endl;
